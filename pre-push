@@ -1,0 +1,21 @@
+#!/bin/sh
+
+MASTER_BRANCH="master"
+GIT_BRANCH=`git rev-parse --abbrev-ref HEAD`
+
+# Allows reading of user input
+exec < /dev/tty
+
+# Don't allow pushing to master
+if [[ $GIT_BRANCH == $MASTER_BRANCH ]];
+then
+  echo "I'm sorry Dave, I'm afraid I can't do that. Branch is $MASTER_BRANCH, did you mean to do this?" y/n
+  read intentional
+  if [[ $intentional == "y" ]];
+    then
+      echo "Okay, you may proceed"
+      exit 0
+    else
+      exit 1
+  fi
+fi
